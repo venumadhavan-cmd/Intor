@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Venu Madhavan| 3D Game Artist & Game Developer</title>
+    <meta name="description"
+        content="Portfolio and links for Your Name – 3D Artist & Game Developer, creator of The Lost Ray.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Animated background particles -->
+    <div class="bg-particles" aria-hidden="true">
+        <span></span><span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span><span></span>
+    </div>
+
+    <!-- Glowing orbs -->
+    <div class="orb orb-1" aria-hidden="true"></div>
+    <div class="orb orb-2" aria-hidden="true"></div>
+
+    <main class="page-wrapper">
+
+        <!-- CARD -->
+        <div class="card" id="main-card">
+
+            <!-- Header / Profile -->
+            <header class="card-header">
+                <div class="status-badge">
+                    <span class="pulse-dot" aria-hidden="true"></span>
+                    Available for Work
+                </div>
+                <h1 class="name">Venu Madhavan</h1>
+                <p class="title-tag">3D Game Artist &amp; Game Developer</p>
+                <p class="bio">Developer of <em>Trudge</em> &mdash; crafting immersive worlds, stunning visuals, and
+                    unforgettable gameplay experiences. Click itch.io to have a look at the prototye</p>
+            </header>
+            <!-- Main Links -->
+            <nav class="links-wrapper" aria-label="Profile links">
+
+                <a href="https://venumadhavan-cmd.github.io/Venumadhavan.github.io/" class="btn primary-btn"
+                    target="_blank" rel="noopener noreferrer" id="portfolio-btn">
+                    <span class="btn-icon"><i class="fa-solid fa-globe" aria-hidden="true"></i></span>
+                    <span class="btn-text">
+                        <span class="btn-title">Portfolio Website</span>
+                        <span class="btn-sub">View my full collection</span>
+                    </span>
+                    <span class="btn-arrow"><i class="fa-solid fa-arrow-right" aria-hidden="true"></i></span>
+                </a>
+
+                <a href="https://www.artstation.com/venumadhavan" class="btn artstation-btn" target="_blank"
+                    rel="noopener noreferrer" id="artstation-btn">
+                    <span class="btn-icon"><i class="fa-brands fa-artstation" aria-hidden="true"></i></span>
+                    <span class="btn-text">
+                        <span class="btn-title">ArtStation</span>
+                        <span class="btn-sub">3D art &amp; concepts</span>
+                    </span>
+                    <span class="btn-arrow"><i class="fa-solid fa-arrow-right" aria-hidden="true"></i></span>
+                </a>
+
+                <a href="https://www.linkedin.com/in/venu-madhavan-k-306a60269" class="btn linkedin-btn" target="_blank"
+                    rel="noopener noreferrer" id="linkedin-btn">
+                    <span class="btn-icon"><i class="fa-brands fa-linkedin-in" aria-hidden="true"></i></span>
+                    <span class="btn-text">
+                        <span class="btn-title">LinkedIn</span>
+                        <span class="btn-sub">Let's connect professionally</span>
+                    </span>
+                    <span class="btn-arrow"><i class="fa-solid fa-arrow-right" aria-hidden="true"></i></span>
+                </a>
+
+                <a href="https://hariraamjpg.itch.io/tredge" class="btn itch-btn" target="_blank"
+                    rel="noopener noreferrer" id="itch-btn">
+                    <span class="btn-icon"><i class="fa-brands fa-itch-io" aria-hidden="true"></i></span>
+                    <span class="btn-text">
+                        <span class="btn-title">itch.io</span>
+                        <span class="btn-sub">Play The Lost Ray &amp; more</span>
+                    </span>
+                    <span class="btn-arrow"><i class="fa-solid fa-arrow-right" aria-hidden="true"></i></span>
+                </a>
+
+            </nav>
+            <!-- Footer -->
+            <footer class="card-footer">
+                <p>&copy; <span id="year"></span> Venu Madhavan &mdash; Lets Build something Different.</p>
+            </footer>
+
+        </div>
+    </main>
+
+    <script>
+        // Auto year
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Animate stat counters
+        const counters = document.querySelectorAll('.stat-number');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const el = entry.target;
+                    const target = +el.dataset.target;
+                    let current = 0;
+                    const step = Math.max(1, Math.ceil(target / 40));
+                    const timer = setInterval(() => {
+                        current += step;
+                        if (current >= target) { current = target; clearInterval(timer); }
+                        el.textContent = current;
+                    }, 40);
+                    observer.unobserve(el);
+                }
+            });
+        }, { threshold: 0.5 });
+        counters.forEach(c => observer.observe(c));
+
+        // Tilt effect on desktop
+        const card = document.getElementById('main-card');
+        if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+                const tiltX = -(y / (rect.height / 2)) * 4;
+                const tiltY = (x / (rect.width / 2)) * 4;
+                card.style.transform = `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) translateY(-4px)`;
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = '';
+            });
+        }
+
+        // Profile image fallback
+        const img = document.getElementById('profile-img');
+        img.onerror = function () {
+            this.src = 'https://ui-avatars.com/api/?name=Your+Name&background=38bdf8&color=0f172a&size=200&bold=true';
+        };
+    </script>
+</body>
+
+</html>
